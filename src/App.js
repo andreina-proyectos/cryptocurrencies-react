@@ -1,24 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
+  const [cryptoData, setCryptoData] = useState([]);
+
+  useEffect(() => {
+    const endpoint = 'https://api.coinmarketcap.com/v1/ticker/?convert=USD&limit=40';
+    fetch(endpoint)
+      .then(response => response.json())
+      .then(data => {
+        setCryptoData(data)
+      })
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <header className="app__header">
+        <h1 className="app__title">Criptocurrencies prices</h1>
       </header>
+      <main className="app__main">
+        <ul className="main__crypto-list">
+          {cryptoData.map(crypto => {return (
+            <li className="crypto-list__crypto">
+              <h3 className="crypto__name">{crypto.name}</h3>
+            </li>
+          )})}
+        </ul>
+      </main>
     </div>
   );
 }
