@@ -3,7 +3,7 @@ import './App.css';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import { makeStyles } from '@material-ui/core/styles';
-import cryptoLogo from  '../node_modules/cryptocurrency-icons/svg/color/kmd.svg';
+// import cryptoLogo from  './cryptocurrency-icons/svg/color/';
 
 const useStyles = makeStyles({
   card: {
@@ -24,6 +24,18 @@ function App() {
       })
   }, []);
 
+  const getCrytoLogo = (symbolCurrency) => {
+    const defaultCryptoLogo = 'https://cdn0.iconfinder.com/data/icons/tiny-icons-1/100/tiny-07-512.png';
+    let cryptoLogoImage;
+    try{
+      cryptoLogoImage = require(`./cryptocurrency-icons/svg/color/${symbolCurrency.toLowerCase()}.svg`)
+    }
+    catch (error) {
+      cryptoLogoImage = defaultCryptoLogo;
+    }
+    return cryptoLogoImage;
+ }
+
   return (
     <div className="App">
       <header className="app__header">
@@ -35,7 +47,7 @@ function App() {
             <li key={crypto.id} className="crypto-list__crypto">
               <Card className={classes.card}>
                 <CardContent>
-                  <img src={`${cryptoLogo}`} alt="" className="crypto__logo"/>
+                  <img src={getCrytoLogo(crypto.symbol)} alt="" className="crypto__logo"/>
                   <h3 className="crypto__name">{crypto.name}</h3>
                   <p className="crypto__symbol">{crypto.symbol}</p>
                   <p className="crypto__price-usd">$  {crypto.price_usd}</p>
