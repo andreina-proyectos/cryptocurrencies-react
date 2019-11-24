@@ -5,13 +5,11 @@ import CardContent from '@material-ui/core/CardContent';
 import { makeStyles } from '@material-ui/core/styles';
 import cryptoLogo from  '../node_modules/cryptocurrency-icons/svg/color/kmd.svg';
 
-
 const useStyles = makeStyles({
   card: {
-    minWidth: 275,
-  },
+    maxWidth: 300,
+  }
 });
-
 
 function App() {
   const classes = useStyles();
@@ -34,10 +32,10 @@ function App() {
       <main className="app__main">
         <ul className="main__crypto-list">
           {cryptoData.map(crypto => {return (
-            <li className="crypto-list__crypto">
+            <li key={crypto.id} className="crypto-list__crypto">
               <Card className={classes.card}>
-                <img src={cryptoLogo} alt="" className="crypto__logo"/>
                 <CardContent>
+                  <img src={`${cryptoLogo}`} alt="" className="crypto__logo"/>
                   <h3 className="crypto__name">{crypto.name}</h3>
                   <p className="crypto__symbol">{crypto.symbol}</p>
                   <p className="crypto__price-usd">$  {crypto.price_usd}</p>
@@ -47,11 +45,6 @@ function App() {
                   <p className="crypto__percent24h">Change 24h: {crypto.percent_change_24h} %</p>    
                 </CardContent>
               </Card>
-
-
-
-
-
             </li>
           )})}
         </ul>
