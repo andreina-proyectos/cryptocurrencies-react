@@ -40,7 +40,11 @@ function App() {
   let cryptoFounded = cryptoJson.find(function(element){
     return element.symbol.toLowerCase() === symbolCurrency.toLowerCase();
   })
-  return cryptoFounded? cryptoFounded.color : "#2e3148"; 
+  const halfOpacity = "99";
+  let colorWithLessOpacity = cryptoFounded? cryptoFounded.color+halfOpacity : "#2e3148"+halfOpacity;
+
+  let colorWithoutLessOpacity = cryptoFounded? cryptoFounded.color : "#2e3148" 
+  return ({colorWithLessOpacity, colorWithoutLessOpacity}) ;
  }
 
   return (
@@ -50,19 +54,28 @@ function App() {
       </header>
       <main className="app__main">
         <ul className="main__crypto-list">
-          {cryptoData.map(crypto => {return (
+          {cryptoData.map(crypto => {
+            const cryptoColor = getCryptoColor(crypto.symbol);
+           return (
             <li key={crypto.id} className="crypto-list__crypto">
-              <Card className={classes.card}>
+
+              {/* <Card style={{"backgroundColor": getCryptoColor(crypto.symbol), filter: "alpha(opacity=60)"}} className={classes.card}> */}
+
+              <Card style={{"background": `linear-gradient(170deg, ${cryptoColor.colorWithLessOpacity} 60%, ${cryptoColor.colorWithoutLessOpacity} 40%)`}} className={classes.card}>
                 <CardContent>
                   <img src={getCrytoLogo(crypto.symbol)} alt="" className="crypto__logo" width="50"/>
                   <h3 className="crypto__name">{crypto.name}</h3>
-                  <p className="crypto__symbol">{crypto.symbol}</p>
-                  <p className="crypto__price-usd">$  {crypto.price_usd}</p>
-                  <p className="crypto__price-btc">₿  {crypto.price_btc}</p>
-                  <p className="crypto__market-cap">Market cap: $ {crypto.market_cap_usd}</p>
-                  <p className="crypto__percent1h">Change 1h: {crypto.percent_change_1h} %</p>
-                  <p className="crypto__percent24h">Change 24h: {crypto.percent_change_24h} %</p>
-                  <p style={{color: getCryptoColor(crypto.symbol)}} className="soyelcolor">soy el color</p>  
+
+                  <div
+                    className="crypto__info-wrapper">
+                    <p className="crypto__symbol">{crypto.symbol}</p>
+                    <p className="crypto__price-usd">$  {crypto.price_usd}</p>
+                    <p className="crypto__price-btc">₿  {crypto.price_btc}</p>
+                    <p className="crypto__market-cap">Market cap: $ {crypto.market_cap_usd}</p>
+                    <p className="crypto__percent1h">Change 1h: {crypto.percent_change_1h} %</p>
+                    <p className="crypto__percent24h">Change 24h: {crypto.percent_change_24h} %</p> 
+                  </div>
+
                 </CardContent>
               </Card>
             </li>
